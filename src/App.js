@@ -8,36 +8,55 @@ import {
   CardContent,
   CardMedia,
   CircularProgress,
+  Input,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { Buffer } from "buffer";
 import { ethers } from "ethers";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import abi from "./abi.json";
 
 const NFT_ADDRESS = "0xf2470e641a551D7Dbdf4B8D064Cf208edfB06586";
 
 function App() {
+  const [handler, set_handler] = useState(null);
   const [tokenId, set_tokenId] = useState(null);
   const [base64Image, set_base64Image] = useState(null);
 
-  useEffect(() => {
-    if (base64Image !== null) return;
-
-    const f = async () => {
+  const updateImage = useCallback(
+    async (tokenId) => {
       const provider = new ethers.providers.InfuraProvider();
       const nft = new ethers.Contract(NFT_ADDRESS, abi, provider);
-      const tokenId = Math.floor(Math.random() * 7000);
 
-      const jsonDump = await nft.tokenURI(tokenId);
-      const base64JsonDump = jsonDump.split(",").slice(1).join(",");
-      const jsonMetadata = JSON.parse(
-        Buffer.from(base64JsonDump, "base64").toString()
-      );
-      set_base64Image(jsonMetadata.image);
-      set_tokenId(tokenId);
-    };
-    f();
+      try {
+        const jsonDump = await nft.tokenURI(tokenId);
+        const base64JsonDump = jsonDump.split(",").slice(1).join(",");
+        const jsonMetadata = JSON.parse(
+          Buffer.from(base64JsonDump, "base64").toString()
+        );
+        set_base64Image(jsonMetadata.image);
+        set_tokenId(tokenId);
+      } catch (e) {
+        return;
+      }
+    },
+    [set_base64Image, set_tokenId]
+  );
+
+  const onTextUpdate = async (number) => {
+    if (handler) {
+      clearTimeout(handler);
+    }
+
+    set_base64Image(null);
+    set_tokenId(number);
+    set_handler(setTimeout(() => updateImage(number), 500));
+  };
+
+  useEffect(() => {
+    if (base64Image !== null || tokenId !== null) return;
+    const newTokenId = Math.floor(Math.random() * 7000);
+    updateImage(newTokenId);
   });
 
   return (
@@ -77,7 +96,13 @@ function App() {
               )}
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                  Clock #{tokenId === null ? "..." : tokenId}
+                  Clock #
+                  <Input
+                    fullWidth={false}
+                    onChange={(e) => onTextUpdate(e.target.value)}
+                    style={{ font: "inherit" }}
+                    value={tokenId === null ? "..." : tokenId}
+                  />
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   Clock8008 is a collection of 8008 functioning clocks that you
