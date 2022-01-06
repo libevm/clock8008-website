@@ -15,7 +15,7 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import abi from "./abi.json";
 
-const NFT_ADDRESS = "0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7";
+const NFT_ADDRESS = "0xf2470e641a551D7Dbdf4B8D064Cf208edfB06586";
 
 function App() {
   const [tokenId, set_tokenId] = useState(null);
