@@ -95,7 +95,7 @@ function App() {
             variant="outlined"
             onClick={(e) => {
               e.preventDefault();
-              window.location.href = "https://opensea.io";
+              window.location.href = "https://opensea.io/collection/clock8008";
             }}
           >
             Opensea 🌊
