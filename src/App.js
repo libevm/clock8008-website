@@ -111,6 +111,17 @@ function App() {
           >
             Etherscan 🗿
           </Button>
+          <Box sx={{ p: 1 }} />
+          <Button
+            fullWidth
+            variant="outlined"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = `https://discord.gg/4gT4T7BrUj`;
+            }}
+          >
+            Discord 💬
+          </Button>
         </Grid>
       </Grid>
       <Box sx={{ p: 2 }} />
