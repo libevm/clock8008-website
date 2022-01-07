@@ -6,12 +6,15 @@ import reportWebVitals from "./reportWebVitals";
 
 import { theme } from "./theme";
 import { ThemeProvider, CssBaseline } from "@mui/material";
+import { SnackbarProvider } from "notistack";
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline>
-        <App />
+        <SnackbarProvider>
+          <App />
+        </SnackbarProvider>
       </CssBaseline>
     </ThemeProvider>
   </React.StrictMode>,
