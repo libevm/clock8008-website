@@ -267,7 +267,7 @@ function App() {
             variant="outlined"
             onClick={(e) => {
               e.preventDefault();
-              window.location.href = `https://twitter.com/clock8008`;
+              window.location.href = `https://twitter.com/nft8008`;
             }}
           >
             Twitter 🐦
